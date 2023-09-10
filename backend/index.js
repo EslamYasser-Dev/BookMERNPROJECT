@@ -71,7 +71,7 @@ app.get('/books', async(request, response)=>{
 });
 
 
-//Method to get spicefic book 
+//Method to get spicefic book (search)
 app.get('/books/:id', async(request, response)=>{
     try {
         const {id} = request.params;
@@ -104,9 +104,23 @@ app.put('/books/:id', async(request, response)=>{
         console.log(error.message);
         response.status(500).send({message:error.message});
     }
-}
-);
+});
 
+//Route to Delete a book
+app.delete('/books/:id',async(request,response)=>{
+    try {
+        const {id}= request.params;
+        const result = await Book.findByIdAndDelete(id);
+        if(!result){return response.status(404).send({message:"book is not found"}); 
+    }
+        return response.status(200).send({message:"Book Deleted Successfully"});
+        
+
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message:error.message}); 
+    }
+});
 
 
 
