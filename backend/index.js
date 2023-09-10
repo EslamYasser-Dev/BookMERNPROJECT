@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import { Book } from "./models/bookModel.js";
 
 const app = express();
-app.use(express.json());
 
 // //get method takes callbak (http route is /)
 // app.get('/',(requset, response)=>{
@@ -24,21 +23,22 @@ mongoose.connect(mongoDBURL).then(()=>{
 .catch((error)=>{
     console.log(error);
 });
+app.use(express.json());
 
 //route to add new book(send data to mongo DB)
-app.post('/books', async (requset,response)=>{
+app.post('/books', async (request,response)=>{
     try {
         //ensure that all fields are not null
-        if(!requset.body.title||!requset.body.author||!requset.body.publishYear){
+        if(!request.body.title||!request.body.author||!request.body.publishYear){
             return response.status(400).send({
                 message:'Send all required info fields: Title, Auther and Publish Year',
             });
         }
         //save the data in an Object 
         const newBook = {
-            title: requset.body.title,
-            author: requset.body.author,
-            publishYear:requset.body.publishYear
+            title: request.body.title,
+            author: request.body.author,
+            publishYear:request.body.publishYear
         }
 
         //save the data(newBook) in a variable called book from Book type 
@@ -61,7 +61,7 @@ app.get('/books', async(request, response)=>{
         const books = await Book.find({});
         return response.status(200).json({
             count:books.length, //this to return count of books inside object {count:5,data:{....}}
-            data:books
+            data:books,
         });
         
     } catch (error) {
@@ -88,7 +88,7 @@ app.get('/books/:id', async(request, response)=>{
 //route to update a book
 app.put('/books/:id', async(request, response)=>{
     try {
-        if(!requset.body.title||!requset.body.author||!requset.body.publishYear){
+        if(!request.body.title||!request.body.author||!request.body.publishYear){
             return response.status(400).send({
                 message:'Send all required info fields: Title, Auther and Publish Year',
             });

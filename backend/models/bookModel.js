@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 const bookSchema = mongoose.Schema({
   title: {
@@ -6,14 +6,18 @@ const bookSchema = mongoose.Schema({
     required: true,
   },
   author: {
-    type: Number,
+    type: String,
     required: true,
   },
   publishYear: { 
-    type: String, 
+    type: Number, 
     required: true 
     },
-},{timeStamps:true}
+},
+{
+  timeStamps:true
+}
 );
 
 export const Book = mongoose.model("Cat", bookSchema);
+ 
