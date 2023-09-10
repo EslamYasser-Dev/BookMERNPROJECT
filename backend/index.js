@@ -10,6 +10,17 @@ app.get('/',(requset, response)=>{
     return response.status(234).send("hello");
 });
 
+
+//route to add new book(send data to mongo DB)
+app.post('/books',(requset,response)=>{
+    try {
+        
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+
 //port
 app.listen(PORT,()=>{
     console.log(`App listening to port: ${PORT}`);
